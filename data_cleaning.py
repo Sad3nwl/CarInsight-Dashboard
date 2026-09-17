@@ -33,6 +33,7 @@ df['origin'] = df['origin'].str.capitalize()
 df['model'] = df.apply(
     lambda r: r['name'][len(r['name'].split()[0]):].strip(), axis=1
 )
+# Check for duplicates and outliers (report only, no deletion)
 fig, axes = plt.subplots(1, 3, figsize=(12, 4))
 cols = ['mpg', 'horsepower', 'weight']
 for ax, col in zip(axes, cols):
@@ -41,3 +42,11 @@ for ax, col in zip(axes, cols):
 plt.tight_layout()
 plt.savefig("boxplots.png", dpi=130)
 print("تم الحفظ: boxplots.png")
+df = df[[
+    'name', 'manufacturer', 'model', 'mpg', 'cylinders', 'displacement',
+    'horsepower', 'weight', 'acceleration', 'model_year',
+    'model_year_full', 'origin'
+]]
+# SAVE DATA
+df.to_csv("Automobile_clean.csv", index=False)
+print("تم الحفظ: Automobile_clean.csv")

@@ -9,7 +9,7 @@ sns.histplot(df['mpg'], kde=True, color='indigo')
 plt.title('MPG Distribution')
 plt.savefig("eda_1_mpg_dist.png", dpi=130, bbox_inches='tight')
 plt.show()
-#
+# heatmap
 plt.figure(figsize=(6, 5))
 corr = df[['mpg', 'cylinders', 'displacement', 'horsepower',
            'weight', 'acceleration']].corr()

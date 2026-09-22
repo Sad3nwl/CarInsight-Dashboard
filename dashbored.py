@@ -56,53 +56,40 @@ def load_data(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
 def render_sidebar(df: pd.DataFrame) -> pd.DataFrame:
     st.sidebar.header("🔎 Filters")
-
     origin = st.sidebar.multiselect(
         "Origin",
         options=sorted(df["origin"].unique()),
         default=sorted(df["origin"].unique()),
     )
-
     manufacturer = st.sidebar.multiselect(
         "Manufacturer",
         options=sorted(df["manufacturer"].unique()),
         default=[],
     )
-
     cyl_min, cyl_max = int(df["cylinders"].min()), int(df["cylinders"].max())
     cylinders = st.sidebar.slider("Cylinders", cyl_min, cyl_max, (cyl_min, cyl_max))
-
     year_min, year_max = int(df["model_year_full"].min()), int(df["model_year_full"].max())
     year = st.sidebar.slider("Model Year", year_min, year_max, (year_min, year_max))
-
     result = df[
         df["origin"].isin(origin)
         & df["cylinders"].between(*cylinders)
         & df["model_year_full"].between(*year)
     ]
-
     if manufacturer:
         result = result[result["manufacturer"].isin(manufacturer)]
-
     return result
-
-
 def render_kpis(df: pd.DataFrame) -> None:
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🚘 Car Count", f"{len(df)}")
     col2.metric("⛽ Avg MPG", f"{df['mpg'].mean():.1f}")
     col3.metric("🐎 Avg Horsepower", f"{df['horsepower'].mean():.0f} HP")
     col4.metric("⚖️ Avg Weight", f"{df['weight'].mean():.0f} lbs")
-
-
 def render_distribution_tab(df: pd.DataFrame) -> None:
     c1, c2 = st.columns(2)
-
     with c1:
         fig = px.histogram(df, x="mpg", nbins=20, title="MPG Distribution",
-                            color_discrete_sequence=[PURPLE])
+                      color_discrete_sequence=[PURPLE])
         st.plotly_chart(fig, use_container_width=True)
-
     with c2:
         fig = px.histogram(df, x="cylinders", title="Car Count by Cylinders",
                             color_discrete_sequence=[PURPLE_LIGHT])
@@ -111,7 +98,6 @@ def render_distribution_tab(df: pd.DataFrame) -> None:
 
 def render_relationships_tab(df: pd.DataFrame) -> None:
     c1, c2 = st.columns(2)
-
     with c1:
         fig = px.scatter(df, x="weight", y="mpg", color="origin",
                           title="Weight vs MPG by Origin",

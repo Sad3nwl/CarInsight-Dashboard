@@ -8,6 +8,29 @@ NUMERIC_COLS = ["mpg", "cylinders", "displacement", "horsepower", "weight", "acc
 PURPLE = "#6A1B9A"
 PURPLE_LIGHT = "#8E24AA"
 PURPLE_DARK = "#7B1FA2"
+def render_global_style() -> None:
+    st.markdown("""
+        <style>
+        html, body, [class*="css"] {
+            color: #1a1a1a;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #111111 !important;
+            font-weight: 700 !important;
+        }
+        p, span, label, div {
+            color: #1a1a1a;
+        }
+        [data-testid="stMetricLabel"] {
+            color: #111111 !important;
+            font-weight: 600 !important;
+        }
+        [data-testid="stMetricValue"] {
+            color: #000000 !important;
+            font-weight: 700 !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 def render_corner_image(path: str) -> None:
     with open(path, "rb") as f:
         img_b64 = base64.b64encode(f.read()).decode()
@@ -16,7 +39,7 @@ def render_corner_image(path: str) -> None:
         <style>
         .corner-wrap {{
             position: fixed;
-            top: 12px;
+            top: 15px;
             right: 20px;
             z-index: 999;
             text-align: center;
@@ -27,7 +50,7 @@ def render_corner_image(path: str) -> None:
             box-shadow: 0 6px 18px rgba(106, 27, 154, 0.25);
         }}
         .corner-car {{
-            width: 190px;
+            width: 170px;
             height: auto;
             display: block;
             border-radius: 12px;
@@ -42,14 +65,14 @@ def render_corner_image(path: str) -> None:
         </style>
         <div class="corner-wrap">
             <img src="data:image/jpeg;base64,{img_b64}" class="corner-car">
-            <div class="corner-credit"> Made by Sadeen Abdelalrahman</div>
+            <div class="corner-credit">Made by Sadeen Abdelalrahman</div>
         </div>
     """, unsafe_allow_html=True)
 @st.cache_data
 def load_data(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
 def render_sidebar(df: pd.DataFrame) -> pd.DataFrame:
-    st.sidebar.header("🔎 Filters")
+    st.sidebar.header("Filters")
     origin = st.sidebar.multiselect(
         "Origin",
         options=sorted(df["origin"].unique()),
@@ -74,16 +97,17 @@ def render_sidebar(df: pd.DataFrame) -> pd.DataFrame:
     return result
 def render_kpis(df: pd.DataFrame) -> None:
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🚘 Car Count", f"{len(df)}")
-    col2.metric("⛽ Avg MPG", f"{df['mpg'].mean():.1f}")
-    col3.metric("🐎 Avg Horsepower", f"{df['horsepower'].mean():.0f} HP")
-    col4.metric("⚖️ Avg Weight", f"{df['weight'].mean():.0f} lbs")
+    col1.metric("Car Count", f"{len(df)}")
+    col2.metric("Avg MPG", f"{df['mpg'].mean():.1f}")
+    col3.metric("Avg Horsepower", f"{df['horsepower'].mean():.0f} HP")
+    col4.metric("Avg Weight", f"{df['weight'].mean():.0f} lbs")
 def render_distribution_tab(df: pd.DataFrame) -> None:
     c1, c2 = st.columns(2)
     with c1:
         fig = px.histogram(df, x="mpg", nbins=20, title="MPG Distribution",
-                      color_discrete_sequence=[PURPLE])
+                            color_discrete_sequence=[PURPLE])
         st.plotly_chart(fig, use_container_width=True)
+
     with c2:
         fig = px.histogram(df, x="cylinders", title="Car Count by Cylinders",
                             color_discrete_sequence=[PURPLE_LIGHT])
@@ -122,22 +146,24 @@ def render_origin_tab(df: pd.DataFrame) -> None:
 def render_table_tab(df: pd.DataFrame) -> None:
     st.dataframe(df, use_container_width=True)
     csv = df.to_csv(index=False).encode("utf-8")
-    st.download_button("⬇️ Download Filtered Data (CSV)", data=csv,
+    st.download_button("Download Filtered Data (CSV)", data=csv,
                         file_name="filtered_cars.csv", mime="text/csv")
 def main() -> None:
-    st.set_page_config(page_title="CarInsight Dashboard", page_icon="🚗", layout="wide")
+    st.set_page_config(page_title="CarInsight Dashboard", layout="wide")
+    render_global_style()
     render_corner_image(CAR_IMAGE_PATH)
+
     df = load_data(DATA_PATH)
-    st.title("🚗 CarInsight Dashboard")
+    st.title("CarInsight Dashboard")
     st.caption("Interactive analysis of car data (Auto MPG Dataset)")
     filtered = render_sidebar(df)
     if filtered.empty:
-        st.warning("⚠️ No results match the selected filters.")
+        st.warning("No results match the selected filters.")
         st.stop()
     render_kpis(filtered)
     st.divider()
     tab1, tab2, tab3, tab4 = st.tabs(
-        ["📊 Distribution", "🔗 Relationships", "🌍 By Origin", "📋 Data Table"]
+        ["Distribution", "Relationships", "By Origin", "Data Table"]
     )
     with tab1:
         render_distribution_tab(filtered)

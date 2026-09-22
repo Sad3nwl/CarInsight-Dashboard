@@ -1,19 +1,13 @@
-"""CarInsight Dashboard"""
-
 import base64
-
 import pandas as pd
-import plotly.express as px
 import streamlit as st
-
+import plotly.express as px
 DATA_PATH = "Automobile_clean.csv"
 CAR_IMAGE_PATH = "assetscar.jpeg"
 NUMERIC_COLS = ["mpg", "cylinders", "displacement", "horsepower", "weight", "acceleration"]
 PURPLE = "#6A1B9A"
 PURPLE_LIGHT = "#8E24AA"
 PURPLE_DARK = "#7B1FA2"
-
-
 def render_corner_image(path: str) -> None:
     with open(path, "rb") as f:
         img_b64 = base64.b64encode(f.read()).decode()
@@ -48,7 +42,7 @@ def render_corner_image(path: str) -> None:
         </style>
         <div class="corner-wrap">
             <img src="data:image/jpeg;base64,{img_b64}" class="corner-car">
-            <div class="corner-credit">🚗 Made by Sadeen Abdelalrahman</div>
+            <div class="corner-credit"> Made by Sadeen Abdelalrahman</div>
         </div>
     """, unsafe_allow_html=True)
 @st.cache_data

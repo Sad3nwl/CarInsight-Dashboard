@@ -51,13 +51,9 @@ def render_corner_image(path: str) -> None:
             <div class="corner-credit">🚗 Made by Sadeen Abdelalrahman</div>
         </div>
     """, unsafe_allow_html=True)
-
-
 @st.cache_data
 def load_data(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
-
-
 def render_sidebar(df: pd.DataFrame) -> pd.DataFrame:
     st.sidebar.header("🔎 Filters")
 

@@ -88,8 +88,6 @@ def render_distribution_tab(df: pd.DataFrame) -> None:
         fig = px.histogram(df, x="cylinders", title="Car Count by Cylinders",
                             color_discrete_sequence=[PURPLE_LIGHT])
         st.plotly_chart(fig, use_container_width=True)
-
-
 def render_relationships_tab(df: pd.DataFrame) -> None:
     c1, c2 = st.columns(2)
     with c1:
@@ -98,61 +96,46 @@ def render_relationships_tab(df: pd.DataFrame) -> None:
                           color_discrete_sequence=px.colors.sequential.Purples_r,
                           hover_data=["manufacturer", "model"])
         st.plotly_chart(fig, use_container_width=True)
-
     with c2:
         corr = df[NUMERIC_COLS].corr()
         fig = px.imshow(corr, text_auto=".2f", title="Correlation Matrix",
                          color_continuous_scale="Purples")
         st.plotly_chart(fig, use_container_width=True)
-
     trend = df.groupby("model_year_full")["mpg"].mean().reset_index()
     fig = px.line(trend, x="model_year_full", y="mpg", markers=True,
                   title="MPG Trend Over the Years",
                   color_discrete_sequence=[PURPLE])
     st.plotly_chart(fig, use_container_width=True)
-
-
 def render_origin_tab(df: pd.DataFrame) -> None:
     c1, c2 = st.columns(2)
-
     with c1:
         fig = px.box(df, x="origin", y="mpg", color="origin",
                      title="MPG Distribution by Origin",
                      color_discrete_sequence=px.colors.sequential.Purples_r)
         st.plotly_chart(fig, use_container_width=True)
-
     with c2:
         top_makers = df["manufacturer"].value_counts().head(10)
         fig = px.bar(top_makers, orientation="h",
                      title="Top 10 Manufacturers (Car Count)",
                      color_discrete_sequence=[PURPLE_DARK])
         st.plotly_chart(fig, use_container_width=True)
-
-
 def render_table_tab(df: pd.DataFrame) -> None:
     st.dataframe(df, use_container_width=True)
     csv = df.to_csv(index=False).encode("utf-8")
     st.download_button("⬇️ Download Filtered Data (CSV)", data=csv,
                         file_name="filtered_cars.csv", mime="text/csv")
-
-
 def main() -> None:
     st.set_page_config(page_title="CarInsight Dashboard", page_icon="🚗", layout="wide")
     render_corner_image(CAR_IMAGE_PATH)
-
     df = load_data(DATA_PATH)
-
     st.title("🚗 CarInsight Dashboard")
     st.caption("Interactive analysis of car data (Auto MPG Dataset)")
-
     filtered = render_sidebar(df)
     if filtered.empty:
         st.warning("⚠️ No results match the selected filters.")
         st.stop()
-
     render_kpis(filtered)
     st.divider()
-
     tab1, tab2, tab3, tab4 = st.tabs(
         ["📊 Distribution", "🔗 Relationships", "🌍 By Origin", "📋 Data Table"]
     )

@@ -1,5 +1,4 @@
 # 🚗 CarInsight Dashboard
-
 An interactive dashboard for exploring the Auto MPG dataset — built with Python, Pandas, and Streamlit.
 ## Overview
 This project takes a raw automobile dataset, cleans it, runs exploratory data analysis, and presents the results in an interactive web dashboard with live filters and charts.
@@ -28,8 +27,7 @@ Full pipeline: `clean_automobile.py`
 - Descriptive statistics and group comparisons by origin, manufacturer, and year
 - Correlation analysis (weight has the strongest negative correlation with MPG: -0.83)
 - A clear MPG efficiency jump around 1980, likely tied to the late-1970s energy crisis
-Full pipeline: `analyze_automobile.py`, `eda_automobile.py`
-## Dashboard
+ ## Dashboard
 Built with Streamlit and Plotly. Features:
 - **Sidebar filters**: origin, manufacturer, cylinder range, model year range
 - **KPI cards**: car count, average MPG, average horsepower, average weight

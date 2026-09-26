@@ -55,11 +55,4 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
-## Tech Stack
-- Python
-- Pandas / NumPy
-- Plotly
-- Matplotlib / Seaborn
-- Streamlit
----
 Made by Sadeen Abdelalrahman

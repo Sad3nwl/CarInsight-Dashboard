@@ -2,8 +2,10 @@
 An interactive dashboard for exploring the Auto MPG dataset — built with Python, Pandas, and Streamlit.
 ## Overview
 This project takes a raw automobile dataset, cleans it, runs exploratory data analysis, and presents the results in an interactive web dashboard with live filters and charts.
+
 ## Dataset
 **Source**: Auto MPG Dataset (398 cars, 9 original columns)
+
 | Column | Description |
 |---|---|
 | name | Full original car name |

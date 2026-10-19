@@ -6,8 +6,7 @@
 [![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](#)
-
+ 
 *An interactive web dashboard for exploring the Auto MPG dataset with live filtering, statistical insights, and visual analytics.*
 
 </div>

@@ -13,7 +13,7 @@ plt.show()
 # heatmap
 plt.figure(figsize=(6, 5))
 corr = df[['mpg', 'cylinders', 'displacement', 'horsepower',
-           'weight', 'acceleration']].corr()
+ 'weight', 'acceleration']].corr()
 sns.heatmap(corr, annot=True, cmap='Purples', fmt='.2f')
 plt.title('Correlation Matrix')
 plt.savefig("eda_2_corr.png", dpi=130, bbox_inches='tight')
